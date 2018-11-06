@@ -6,6 +6,8 @@ struct Candidate {
 	string name;
 	uint voteCount;
 }
+//store accounts that have voted
+mapping(address=>bool)public voters;
 //store candidates
 //fetch candidate
 mapping(uint=>Candidate) public candidates; 
@@ -20,4 +22,16 @@ uint public candidatesCount;
 		candidatesCount ++;
 		candidates[candidatesCount] = Candidate(candidatesCount, _name,0);
 	}
+	function vote(uint _candidateID) public {
+	//addr has not voted
+	require(!voters[msg.sender]);
+
+	//is a valid candidate.
+	require(_candidateID>0 && _candidateID<=candidatesCount);
+	//record voter has voted
+	voters[msg.sender] = true; 
+		//update vote count
+	candidates[_candidateID].voteCount++;
+	
+}
 }

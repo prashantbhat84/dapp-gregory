@@ -12,6 +12,9 @@ mapping(address=>bool)public voters;
 //fetch candidate
 mapping(uint=>Candidate) public candidates; 
 //store candidate count
+event votedEvent(
+	uint indexed _candidateID
+);
 uint public candidatesCount;
 	constructor () public {
 		addCandidate("Candidate 1");
@@ -32,6 +35,7 @@ uint public candidatesCount;
 	voters[msg.sender] = true; 
 		//update vote count
 	candidates[_candidateID].voteCount++;
+	emit votedEvent(_candidateID);
 	
 }
 }
